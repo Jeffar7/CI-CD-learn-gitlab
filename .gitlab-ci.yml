@@ -6,4 +6,4 @@ build website:
     - gatsby build
   artifacts:
     paths:
-      - public
+      - ./public
