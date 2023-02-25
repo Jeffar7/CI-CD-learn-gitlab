@@ -12,11 +12,12 @@ build website:
   artifacts:
     paths:
       - ./public
-  test artifact:
-    image: alpine
-    stage: test
-    script:
-      - grep -q "Gatsby" ./public/index.html
+
+test artifact:
+  stage: test
+  image: alpine
+  script:
+    - grep -q "Gatsby" ./public/index.html
 
 test website:
   stage: test
