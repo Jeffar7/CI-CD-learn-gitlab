@@ -1,4 +1,9 @@
+stages:
+  - build
+  - test
+
 build website:
+  stage: build
   image: node:18.12.1
   script:
     - npm install
@@ -13,10 +18,10 @@ build website:
     script:
       - grep -q "Gatsby" ./public/index.html
 
-  test website:
-    stage: test
-    script:
-      - npm install
-      - npm install -g gatsby-cli
-      - gatsby serve
-      - curl "http://localhost:9000" | grep -q "Gatsby"
+test website:
+  stage: test
+  script:
+    - npm install
+    - npm install -g gatsby-cli
+    - gatsby serve
+    - curl "http://localhost:9000" | grep -q "Gatsby"
