@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - deploy
+  - deployment tests
 
 build website:
   stage: build
@@ -35,3 +36,8 @@ deploy to surge:
   script:
     - npm install --global surge
     - surge --project ./public --domain manroeee.surge.sh
+
+test deployment:
+  stage: deployment tests
+  image: alpine
+  script: curl "https://manroeee.surge.sh/index.html" | grep -q "Gatsby"
