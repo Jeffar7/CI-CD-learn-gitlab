@@ -38,7 +38,7 @@ deploy to surge:
     - surge --project ./public --domain manroeee.surge.sh
 
 test deployment:
-  image: alpine
   stage: deployment tests
+  image: alpine
   script:
     - curl "https://manroeee.surge.sh" | tac | tac | grep "Gatsby"
