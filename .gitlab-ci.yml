@@ -40,4 +40,5 @@ deploy to surge:
 test deployment:
   stage: deployment tests
   image: alpine
-  script: curl "https://manroeee.surge.sh/index.html" | grep -q "Gatsby"
+  script:
+    - curl "https://manroeee.surge.sh/index.html" | grep -q "Gatsby"
