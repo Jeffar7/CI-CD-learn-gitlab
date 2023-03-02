@@ -83,6 +83,7 @@ const IndexPage = () => (
       />
       <h1>
         Welcome to <b>Gatsby!</b>
+        <br>Version: %%VERSION%%</br>
       </h1>
       <p className={styles.intro}>
         <b>Example pages:</b>{" "}
