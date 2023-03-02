@@ -5,6 +5,7 @@ stages:
   - test
   - deploy
   - deployment tests
+  - cache
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -20,6 +21,8 @@ build website:
     - npm install -g gatsby-cli
     - gatsby build
     - sed -i "s/%%VERSION%%/$CI_COMMIT_SHORT_SHA/" ./public/index.html
+  except:
+    - schedules
   artifacts:
     paths:
       - ./public
@@ -30,6 +33,8 @@ test artifact:
   cache: {}
   script:
     - grep -q "Gatsby" ./public/index.html
+  except:
+    - schedules
 
 test website:
   stage: test
@@ -39,12 +44,16 @@ test website:
     - gatsby serve &
     - sleep 3
     - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+  except:
+    - schedules
 
 deploy to surge:
   stage: deploy
   script:
     - npm install --global surge
     - surge --project ./public --domain manroeee.surge.sh
+  except:
+    - schedules
 
 test deployment:
   stage: deployment tests
@@ -53,3 +62,15 @@ test deployment:
   script:
     - apk add --no-cache curl
     - curl "https://manroeee.surge.sh" | tac | tac | grep -q "Gatsby"
+  except:
+    - schedules
+
+update cache:
+  stage: cache
+  script:
+    - npm install
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    policy: push
+  only:
+    - schedules
