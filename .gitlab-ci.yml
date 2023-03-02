@@ -69,8 +69,8 @@ update cache:
   stage: cache
   script:
     - npm install
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
+  cache: &global_cache
+    key: $CI_COMMIT_REF_SLUG
     policy: push
   only:
     - schedules
