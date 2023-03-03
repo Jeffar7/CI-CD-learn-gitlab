@@ -14,6 +14,10 @@ cache:
     - node_modules/
   policy: pull
 
+variables:
+  STAGING_DOMAIN: manroeee-staging.surge.sh
+  PRODUCTION_DOMAIN: manroeee.surge.sh
+
 build website:
   stage: build
   script:
@@ -47,20 +51,20 @@ deploy staging:
   cache: {}
   environment:
     name: staging
-    url: http://manroeee-staging.surge.sh
+    url: http://$STAGING_DOMAIN
   script:
     - npm install --global surge
-    - surge --project ./public --domain manroeee-staging.surge.sh
+    - surge --project ./public --domain $STAGING_DOMAIN
 
 deploy production:
   stage: deploy production
   cache: {}
   environment:
     name: production
-    url: http://manroeee.surge.sh
+    url: $PRODUCTION_DOMAIN
   script:
     - npm install --global surge
-    - surge --project ./public --domain manroeee.surge.sh
+    - surge --project ./public --domain $PRODUCTION_DOMAIN
 
 production tests:
   stage: production tests
@@ -74,6 +78,6 @@ update cache:
   stage: cache
   script:
     - npm install
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
+  cache: &global_cache
+    key: $CI_COMMIT_REF_SLUG
     policy: push
