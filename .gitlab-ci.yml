@@ -41,7 +41,7 @@ test website:
 
 deploy staging:
   stage: deploy staging
-  environtment:
+  environment:
     name: staging
     url: http://manroeee-staging.surge.sh
   script:
