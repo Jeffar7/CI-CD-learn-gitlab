@@ -64,8 +64,8 @@ deploy production:
   environment:
     name: production
     url: $PRODUCTION_DOMAIN
-    only:
-      - master
+  only:
+    - master
   script:
     - npm install --global surge
     - surge --project ./public --domain $PRODUCTION_DOMAIN
