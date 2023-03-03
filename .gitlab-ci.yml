@@ -50,7 +50,7 @@ deploy staging:
 
 deploy production:
   stage: deploy production
-    environtment:
+  environtment:
     name: production
     url: http://manroeee.surge.sh
   script:
