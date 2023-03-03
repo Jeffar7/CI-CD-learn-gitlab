@@ -87,3 +87,5 @@ update cache:
   cache: &global_cache
     key: $CI_COMMIT_REF_SLUG
     policy: push
+  only:
+    - master
