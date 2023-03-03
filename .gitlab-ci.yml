@@ -49,6 +49,7 @@ test website:
 
 deploy to surge:
   stage: deploy
+  cache: {}
   script:
     - npm install --global surge
     - surge --project ./public --domain manroeee.surge.sh
@@ -71,6 +72,8 @@ update cache:
     - npm install
   cache: &global_cache
     key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
     policy: push
   only:
     - schedules
