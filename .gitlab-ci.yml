@@ -77,6 +77,7 @@ stop review:
   script:
     - npm install --global surge
     - surge teardown manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
+  when: manual
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
