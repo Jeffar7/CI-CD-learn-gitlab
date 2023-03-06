@@ -76,7 +76,7 @@ stop review:
     GIT_STRATEGY: none
   script:
     - npm install --global surge
-    - surge teardown instazone-$CI_ENVIRONMENT_SLUG.surge.sh
+    - surge teardown manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
