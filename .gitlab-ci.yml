@@ -81,30 +81,32 @@ stop review:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
 
+.deploy_template: &deploy
+  only:
+    - master
+  script:
+    - npm install -global surge
+    - surge --project ./public --domain $DOMAIN
+  environment:
+    url: http://$DOMAIN
+
 deploy staging:
+  <<: *deploy
   stage: deploy staging
   cache: {}
+  variables:
+    DOMAIN: $STAGING_DOMAIN
   environment:
     name: staging
-    url: http://$STAGING_DOMAIN
-  only:
-    - master
-  script:
-    - npm install --global surge
-    - surge --project ./public --domain $STAGING_DOMAIN
 
 deploy production:
+  <<: *deploy
   stage: deploy production
   cache: {}
+  variables:
+    DOMAIN: $PRODUCTION_DOMAIN
   environment:
     name: production
-    url: $PRODUCTION_DOMAIN
-  only:
-    - master
-  before_script:
-    - npm install --global surge
-  script:
-    - surge --project ./public --domain $PRODUCTION_DOMAIN
 
 production tests:
   stage: production tests
