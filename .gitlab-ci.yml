@@ -87,8 +87,9 @@ deploy production:
     url: $PRODUCTION_DOMAIN
   only:
     - master
-  script:
+  before_script:
     - npm install --global surge
+  script:
     - surge --project ./public --domain $PRODUCTION_DOMAIN
 
 production tests:
