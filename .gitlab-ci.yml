@@ -77,7 +77,7 @@ stop review:
   script:
     - npm install --global surge
     - surge teardown instazone-$CI_ENVIRONMENT_SLUG.surge.sh
-  environtment:
+  environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
 
