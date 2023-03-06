@@ -63,9 +63,23 @@ deploy review:
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: https://manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
+    on_stop: stop review
   script:
     - npm install --global surge
     - surge --project ./public --domain manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
+
+stop review:
+  stage: deploy review
+  only:
+    - merge_requests
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - npm install --global surge
+    - surge teardown manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
 
 deploy staging:
   stage: deploy staging
