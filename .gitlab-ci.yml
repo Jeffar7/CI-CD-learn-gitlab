@@ -3,6 +3,7 @@ image: node:18.12.1
 stages:
   - build
   - test
+  - deploy review
   - deploy staging
   - deploy production
   - production tests
@@ -20,6 +21,9 @@ variables:
 
 build website:
   stage: build
+  only:
+    - master
+    - merge_requests
   script:
     - echo $CI_COMMIT_SHORT_SHA
     - npm install
@@ -45,6 +49,17 @@ test website:
     - gatsby serve &
     - sleep 3
     - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+
+deploy review:
+  stage: deploy review
+  only:
+    - merge_requests
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
+  script:
+    - npm install --global surge
+    - surge --project ./public --domain manroeee-$CI_ENVIRONMENT_SLUG.surge.sh
 
 deploy staging:
   stage: deploy staging
@@ -79,13 +94,3 @@ production tests:
     - apk add --no-cache curl
     - curl "https://manroeee.surge.sh" | tac | tac | grep -q "Gatsby"
   cache: {}
-
-update cache:
-  stage: cache
-  script:
-    - npm install
-  cache: &global_cache
-    key: $CI_COMMIT_REF_SLUG
-    policy: push
-  only:
-    - master
