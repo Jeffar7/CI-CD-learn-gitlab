@@ -38,11 +38,17 @@ test artifact:
   stage: test
   image: alpine
   cache: {}
+  only:
+    - master
+    - merge_requests
   script:
     - grep -q "Gatsby" ./public/index.html
 
 test website:
   stage: test
+  only:
+    - master
+    - merge_requests
   script:
     - npm install
     - npm install -g gatsby-cli
